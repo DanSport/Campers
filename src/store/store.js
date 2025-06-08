@@ -1,8 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import vanReducer from "./vanSlice";
+import vanReducer from "./vanSliceSlice";
 
 export const store = configureStore({
-  reducer: {
-    vans: vanReducer,
-  },
+  reducer: { campers: vanReducer },
 });
