@@ -2,7 +2,10 @@
     max-width: 48rem;
     margin-inline: auto;
     text-align: center;
-    padding-block: 4rem 6rem;
+    padding-block: 6rem;
+    background: url("/images/hero.jpeg") center/cover no-repeat;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
 }
 
 .hero h1 {

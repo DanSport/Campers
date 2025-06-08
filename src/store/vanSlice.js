@@ -3,22 +3,25 @@ import axios from "axios";
 
 const BASE_URL = "https://66b1f8e71ca8ad33d4f5f63e.mockapi.io/campers";
 
-// ────────── THUNKS ──────────
+/* ─────────────────────────  THUNKS  ───────────────────────── */
 export const fetchVans = createAsyncThunk(
   "vans/fetchVans",
   async ({ page, filters = {} }, thunkAPI) => {
     try {
-      let query = `page=${page}&limit=5`;
+      let query = `page=${page}&limit=6`; // пагінація
       if (filters.location)
         query += `&location=${encodeURIComponent(filters.location)}`;
-      Object.entries(filters.filters || {}).forEach(([key, value]) => {
-        if (value) query += `&${key.toLowerCase()}=true`;
+
+      /* чек-бокси «AC / kitchen / …» */
+      Object.entries(filters.options || {}).forEach(([k, v]) => {
+        if (v) query += `&${k.toLowerCase()}=true`;
       });
-      Object.entries(filters.vehicleType || {}).forEach(([key, value]) => {
-        if (value) query += `&form=${encodeURIComponent(key)}`;
-      });
+
+      /* radio «form» (тип кузова) */
+      if (filters.form) query += `&form=${encodeURIComponent(filters.form)}`;
+
       const { data } = await axios.get(`${BASE_URL}?${query}`);
-      return { items: data.items, page, filters };
+      return { items: data, page, filters }; 
     } catch (err) {
       return thunkAPI.rejectWithValue(
         err.response?.data?.message || "Failed to fetch vans"
@@ -41,16 +44,16 @@ export const fetchVanDetails = createAsyncThunk(
   }
 );
 
-// ────────── SLICE ──────────
+
 const vanSlice = createSlice({
   name: "vans",
   initialState: {
-    vans: [],
-    currentVan: null,
+    vans: [], 
+    currentVan: null, 
     status: "idle",
     error: null,
     page: 1,
-    savedFilters: {},
+    savedFilters: {}, 
   },
   reducers: {
     loadMore: (state) => {
@@ -58,6 +61,7 @@ const vanSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    
     builder
       .addCase(fetchVans.pending, (state) => {
         state.status = "loading";
@@ -65,21 +69,40 @@ const vanSlice = createSlice({
       })
       .addCase(fetchVans.fulfilled, (state, { payload }) => {
         const { items, page, filters } = payload;
+
+        const sameFilter =
+          JSON.stringify(state.savedFilters) === JSON.stringify(filters);
+
         state.status = "succeeded";
-        state.vans = page === 1 ? items : [...state.vans, ...items];
+        state.page = page;
+        state.vans =
+          page === 1 || !sameFilter
+            ? items 
+            : [...state.vans, ...items]; 
+
         state.savedFilters = filters;
       })
       .addCase(fetchVans.rejected, (state, { payload }) => {
         state.status = "failed";
         state.error = payload;
-      })
+      });
+
+    
+    builder
       .addCase(fetchVanDetails.pending, (state) => {
         state.status = "loading";
         state.currentVan = null;
       })
       .addCase(fetchVanDetails.fulfilled, (state, { payload }) => {
+        
+        payload.features = payload.features ?? [];
+        payload.reviews = payload.reviews ?? [
+          { reviewer: "Alex", rating: 4, comment: "Great for weekend trips!" },
+          { reviewer: "Olena", rating: 5, comment: "Brand-new interior." },
+        ];
+
         state.status = "succeeded";
-        state.currentVan = { ...payload, features: payload.features || [] };
+        state.currentVan = payload;
       })
       .addCase(fetchVanDetails.rejected, (state, { payload }) => {
         state.status = "failed";

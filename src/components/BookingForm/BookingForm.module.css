@@ -1,0 +1,31 @@
+.form {
+    display: grid;
+    gap: .75rem;
+    max-width: 20rem;
+}
+
+input {
+    padding: .5rem .75rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--clr-surfaceDim);
+    background: var(--clr-surface);
+    color: var(--clr-text);
+}
+
+button {
+    padding: .5rem .75rem;
+    border-radius: var(--radius-sm);
+    background: var(--clr-primary);
+    color: #fff;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: var(--clr-primary-hover);
+}
+
+.title {
+    margin-bottom: .25rem;
+}

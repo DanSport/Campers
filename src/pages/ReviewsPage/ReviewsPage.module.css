@@ -1,0 +1,17 @@
+.list {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.card {
+    background: var(--clr-surface);
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--clr-surfaceDim);
+}
+
+.stars {
+    display: flex;
+    gap: 2px;
+    margin-top: 2px;
+}

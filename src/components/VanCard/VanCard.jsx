@@ -1,35 +1,66 @@
-// src/components/VanCard/VanCard.jsx
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import cls from "./VanCard.module.css";
 
+/**
+ * Карточка одного кемпера‑фургона
+ * @param {Object} props
+ * @param {Object} props.van – об’єкт з API (id, name, price, gallery, location)
+ */
 export default function VanCard({ van }) {
-  /* якщо gallery немає або вона порожня — покажемо placeholder */
+  const [isFav, setIsFav] = useState(false);
+
+  // завантажуємо стан «обраного» з localStorage
+  useEffect(() => {
+    const list = JSON.parse(localStorage.getItem("favVans")) || [];
+    setIsFav(list.includes(van.id));
+  }, [van.id]);
+
+  const toggleFav = (e) => {
+    e.stopPropagation();
+    const list = JSON.parse(localStorage.getItem("favVans")) || [];
+    const updated = isFav
+      ? list.filter((id) => id !== van.id)
+      : [...list, van.id];
+    localStorage.setItem("favVans", JSON.stringify(updated));
+    setIsFav(!isFav);
+  };
+
   const imgSrc =
     Array.isArray(van?.gallery) && van.gallery.length
       ? van.gallery[0]
-      : "/placeholder.jpg"; // покладіть будь-яку stub-картинку у /public
+      : "/images/placeholder.jpg";
+
+  const priceUA = Number(van.price).toLocaleString("uk-UA", {
+    minimumFractionDigits: 2,
+  });
 
   return (
-    <article className="border rounded-2xl shadow p-4 flex flex-col">
-      <img
-        src={imgSrc}
-        alt={van?.name ?? "van"}
-        className="rounded-xl mb-3 h-44 object-cover"
-      />
+    <article className={cls.card}>
+      <img src={imgSrc} alt={van.name} className={cls.thumb} />
 
-      <h3 className="font-semibold text-lg mb-1">
-        {van?.name ?? "Unnamed van"}
-      </h3>
-
-      <p className="text-sm text-gray-600 mb-2">
-        {van?.location ?? "unknown location"}
-      </p>
-
-      <Link
-        to={`/catalog/${van?.id ?? ""}`}
-        className="mt-auto underline text-accent hover:no-underline"
+      <button
+        aria-label="Add to favourites"
+        className={cls.favBtn}
+        onClick={toggleFav}
       >
-        View details →
-      </Link>
+        {isFav ? "★" : "☆"}
+      </button>
+
+      <div className={cls.body}>
+        <h3 className={cls.title}>{van.name}</h3>
+        <p className={cls.location}>{van.location}</p>
+        <p className={cls.price}>{priceUA} ₴ / day</p>
+
+        <Link
+          to={`/catalog/${van.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cls.more}
+        >
+          Show more →
+        </Link>
+      </div>
     </article>
   );
 }
