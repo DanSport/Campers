@@ -1,13 +1,24 @@
+
 import { NavLink } from "react-router-dom";
+import s from "./HeaderBar.module.css";
 
 export default function HeaderBar() {
   return (
-    <header className="bg-primary text-white p-4 flex gap-6">
-      {["/", "/catalog"].map((p) => (
-        <NavLink key={p} to={p} className="hover:underline">
-          {p === "/" ? "Home" : "Catalog"}
+    <header className={s.header}>
+      <nav className={`${s.nav} container`}>
+        <NavLink
+          to="/"
+          className={({ isActive }) => `${s.link} ${isActive ? "active" : ""}`}
+        >
+          Home
         </NavLink>
-      ))}
+        <NavLink
+          to="/catalog"
+          className={({ isActive }) => `${s.link} ${isActive ? "active" : ""}`}
+        >
+          Catalog
+        </NavLink>
+      </nav>
     </header>
   );
 }

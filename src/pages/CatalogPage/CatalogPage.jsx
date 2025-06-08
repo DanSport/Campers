@@ -1,23 +1,23 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCampers } from "../../store/vanSlice";
-import CamperCard from "../../components/CamperCard/CamperCard";
+import { fetchVans } from "../../store/vanSlice";  
+import VanCard from "../../components/VanCard/VanCard";  
+import styles from "./CatalogPage.module.css";
 
 export default function CatalogPage() {
   const dispatch = useDispatch();
-  const { campers, status } = useSelector((s) => s.campers);
+  const { vans, status } = useSelector((s) => s.vans);
 
   useEffect(() => {
-    dispatch(fetchCampers());
+    dispatch(fetchVans({ page: 1, filters: {} }));
   }, [dispatch]);
 
   if (status === "loading") return <p>Loading…</p>;
 
-  return (
-    <section className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {campers.map((c) => (
-        <CamperCard key={c.id} camper={c} />
-      ))}
-    </section>
-  );
+return (
+  <section className={styles.grid}>
+    {vans.map((v) => <VanCard key={v.id} van={v} />)}
+  </section>
+);
+
 }

@@ -1,0 +1,18 @@
+.hero {
+    max-width: 48rem;
+    margin-inline: auto;
+    text-align: center;
+    padding-block: 4rem 6rem;
+}
+
+.hero h1 {
+    font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
+    line-height: 1.15;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    color: var(--clr-muted);
+    font-size: 1.125rem;
+}

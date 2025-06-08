@@ -1,0 +1,28 @@
+.wrapper {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr 20rem;
+}
+
+.gallery {
+    display: flex;
+    overflow-x: auto;
+    gap: .75rem;
+}
+
+.gallery img {
+    width: 100%;
+    border-radius: var(--radius-md);
+    flex: 0 0 16rem;
+    /* для горизонтального скролу */
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    padding: 1rem 1.25rem;
+    background: var(--clr-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
