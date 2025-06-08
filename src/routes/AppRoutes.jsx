@@ -16,6 +16,8 @@ export default function AppRoutes() {
           <Route index element={<HomePage />} />
           <Route path="catalog" element={<CatalogPage />} />
           <Route path="catalog/:id/*" element={<CamperDetailsPage />} />
+          <Route path="features" element={<FeaturesPage />} />
+          <Route path="reviews" element={<ReviewsPage />} />
         </Route>
       </Routes>
     </Suspense>
