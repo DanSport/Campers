@@ -1,0 +1,104 @@
+.filterSidebar {
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.locationWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.inputFieldWithIcon {
+    padding-left: 40px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 16px;
+    color: #101828;
+    flex: 1;
+}
+
+.filterGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.filterItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 96px;
+    height: 96px;
+    padding: 8px;
+    background-color: #fff;
+    border: 1px solid #DADEE1;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #101828;
+    text-align: center;
+    cursor: pointer;
+    gap: 4px;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filterItem.selected {
+    border: 1px solid #E44848;
+}
+
+.filterItem:hover {
+    border: 1px solid #E44848;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.filterItem[data-name="FullyIntegrated"] span {
+    white-space: pre-wrap;
+    text-align: center;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    fill: #101828;
+}
+
+.checkbox {
+    display: none;
+}
+
+.searchButton {
+    background-color: #E44848;
+    color: #fff;
+    padding: 10px;
+    width: 80%;
+    border: none;
+    border-radius: 200px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.searchButton:hover {
+    background-color: #DB4343;
+    cursor: pointer;
+}
+
+.line {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    color: #DADDE1;
+}
+.filterItem[data-name="FullyIntegrated"] span {
+    text-align: center;
+}

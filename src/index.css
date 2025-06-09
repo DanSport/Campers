@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+/* Скидання базових стилів */
 *,
 *::before,
 *::after {
@@ -7,46 +9,109 @@
     padding: 0;
 }
 
-html,
-body {
-    height: 100%;
-}
-
-body {
-    font-family: "Inter", system-ui, sans-serif;
-    color: var(--clr-text);
-    background: var(--clr-bg);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-}
-
+/* Глобальні CSS змінні */
 :root {
+    /* Кольори фону та поверхонь */
     --clr-bg: #0f172a;
-    /* slate-900 */
+    /* (залишаємо для можливого використання, але не для body) */
     --clr-surface: #1e293b;
-    /* slate-800 */
     --clr-surfaceDim: #334155;
-    /* slate-700 */
+    --clr-light-bg: #F7F7F7;
+    /* Світлий фон для сторінки/каталогу */
+    --clr-card-bg: #FFFFFF;
+    /* Фон для карток */
+    --clr-filter-bg: #FFFFFF;
+    /* Фон для блоку фільтрів */
+    --clr-booking-form-bg: #FFFFFF;
+    /* Фон для форми бронювання */
+
+
+    /* Кольори тексту */
     --clr-text: #f1f5f9;
-    /* slate-100 */
+    /* (світлий текст, якщо фон темний) */
+    --clr-text-dark: #101828;
+    /* Темний текст, як у макеті */
+    --clr-text-primary: #475467;
+    /* Приглушений темний текст (сірий) */
+    --clr-text-light: #A0A0A0;
+    /* Дуже світлий текст (сірий) */
     --clr-muted: #94a3b8;
     /* slate-400 */
 
+
+    /* Акцентні кольори */
     --clr-primary: #0ea5e9;
     /* sky-500 */
     --clr-primary-hover: #38bdf8;
     --clr-accent: #f97316;
     /* orange-500 */
+    --clr-primary-red: #E44848;
+    /* Основний червоний, як у макеті */
+    --clr-red-hover: #D33D3D;
+    /* Червоний при наведенні */
 
+    /* Радіуси заокруглення */
     --radius-lg: 1rem;
     --radius-md: .75rem;
     --radius-sm: .5rem;
-    --shadow-sm: 0 2px 6px rgb(0 0 0 / .25);
-    --shadow-md: 0 4px 12px rgb(0 0 0 / .35);
+    --radius-button: 500px;
+    /* Для сильно заокруглених кнопок */
+    --radius-card: 20px;
+    /* Для карток кемперів */
+    --radius-image: 10px;
+    /* Для зображень у галереї */
+
+
+    /* Тіні */
+    --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.05);
+    /* Легка тінь */
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    /* Середня тінь */
+    --shadow-lg: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    /* Тінь при ховері/активна */
+
+    /* Висоти */
+    --header-height: calc(0.75rem * 2 + 1px);
 }
 
+/* Стилі для HTML та Body */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    /* overflow-x: hidden; */
+    /* Залишаємо, якщо потрібно уникати горизонтального скролу */
+    /* overflow-y: hidden; */
+    /* ЗАБЕРІТЬ це, якщо хочете вертикальний скрол */
+    /* height: 100%; */
+    /* ЗАБЕРІТЬ це, якщо контент може бути вищим за екран */
+}
 
+body {
+    font-family: "Inter", system-ui, sans-serif;
+    color: var(--clr-text-dark);
+    /* Змінено на темний текст за замовчуванням */
+    background-color: var(--clr-light-bg);
+    /* ЗМІНЕНО: Застосовуємо світлий фон сторінки */
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Загальні стилі для контейнерів */
 .container {
     width: min(92rem, 100% - 2rem);
     margin-inline: auto;
 }
+
+/* Стилі для хедера */
+.headerBar {
+    position: relative;
+    z-index: 1;
+}
+
+/* Додаткові глобальні стилі або імпорти */

@@ -1,27 +1,36 @@
+// src/store/vanSlice.js
+
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const BASE_URL = "https://66b1f8e71ca8ad33d4f5f63e.mockapi.io/campers";
 
-/* ─────────────────────────  THUNKS  ───────────────────────── */
+// ────────── THUNKS ──────────
 export const fetchVans = createAsyncThunk(
   "vans/fetchVans",
   async ({ page, filters = {} }, thunkAPI) => {
     try {
-      let query = `page=${page}&limit=6`; // пагінація
-      if (filters.location)
-        query += `&location=${encodeURIComponent(filters.location)}`;
+      let query = `page=${page}&limit=6`;
 
-      /* чек-бокси «AC / kitchen / …» */
-      Object.entries(filters.options || {}).forEach(([k, v]) => {
-        if (v) query += `&${k.toLowerCase()}=true`;
+      if (filters.location) {
+        query += `&location=${encodeURIComponent(filters.location)}`;
+      }
+
+      // опції (чекбокси)
+      Object.entries(filters.options || {}).forEach(([key, value]) => {
+        if (value) query += `&${key.toLowerCase()}=true`;
       });
 
-      /* radio «form» (тип кузова) */
-      if (filters.form) query += `&form=${encodeURIComponent(filters.form)}`;
+      // тип транспорту (radio)
+      if (filters.form) {
+        query += `&form=${encodeURIComponent(filters.form)}`;
+      }
 
-      const { data } = await axios.get(`${BASE_URL}?${query}`);
-      return { items: data, page, filters }; 
+      const response = await axios.get(`${BASE_URL}?${query}`);
+      // API повертає { total: Number, items: Array }
+      const { total, items } = response.data;
+
+      return { items, total, page, filters };
     } catch (err) {
       return thunkAPI.rejectWithValue(
         err.response?.data?.message || "Failed to fetch vans"
@@ -34,8 +43,8 @@ export const fetchVanDetails = createAsyncThunk(
   "vans/fetchVanDetails",
   async (id, thunkAPI) => {
     try {
-      const { data } = await axios.get(`${BASE_URL}/${id}`);
-      return data;
+      const response = await axios.get(`${BASE_URL}/${id}`);
+      return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(
         err.response?.data?.message || "Failed to fetch van details"
@@ -44,16 +53,17 @@ export const fetchVanDetails = createAsyncThunk(
   }
 );
 
-
+// ────────── SLICE ──────────
 const vanSlice = createSlice({
   name: "vans",
   initialState: {
-    vans: [], 
-    currentVan: null, 
-    status: "idle",
+    vans: [], // масив обʼєктів ванів
+    total: 0, // загальна кількість записів
+    currentVan: null, // обʼєкт деталей
+    status: "idle", // idle | loading | succeeded | failed
     error: null,
     page: 1,
-    savedFilters: {}, 
+    savedFilters: {},
   },
   reducers: {
     loadMore: (state) => {
@@ -61,40 +71,35 @@ const vanSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    
     builder
+      // ---- fetchVans ----
       .addCase(fetchVans.pending, (state) => {
         state.status = "loading";
         state.error = null;
       })
       .addCase(fetchVans.fulfilled, (state, { payload }) => {
-        const { items, page, filters } = payload;
-
+        const { items, total, page, filters } = payload;
         const sameFilter =
           JSON.stringify(state.savedFilters) === JSON.stringify(filters);
 
         state.status = "succeeded";
         state.page = page;
+        state.total = total;
         state.vans =
-          page === 1 || !sameFilter
-            ? items 
-            : [...state.vans, ...items]; 
-
+          page === 1 || !sameFilter ? items : [...state.vans, ...items];
         state.savedFilters = filters;
       })
       .addCase(fetchVans.rejected, (state, { payload }) => {
         state.status = "failed";
         state.error = payload;
-      });
+      })
 
-    
-    builder
+      // ---- fetchVanDetails ----
       .addCase(fetchVanDetails.pending, (state) => {
         state.status = "loading";
         state.currentVan = null;
       })
       .addCase(fetchVanDetails.fulfilled, (state, { payload }) => {
-        
         payload.features = payload.features ?? [];
         payload.reviews = payload.reviews ?? [
           { reviewer: "Alex", rating: 4, comment: "Great for weekend trips!" },

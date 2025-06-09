@@ -1,24 +1,43 @@
-
 import { NavLink } from "react-router-dom";
-import s from "./HeaderBar.module.css";
+import styles from "./HeaderBar.module.css";
 
-export default function HeaderBar() {
+const HeaderBar = () => {
   return (
-    <header className={s.header}>
-      <nav className={`${s.nav} container`}>
+    <header className={styles.appHeader}>
+      {" "}
+      {/* Переконайтеся, що клас саме appHeader */}
+      {/* Блок для логотипу */}
+      <NavLink to="/" className={styles.brandLogo}>
+        {" "}
+        {/* Клас brandLogo */}
+        Travel<span>Trucks</span>
+      </NavLink>
+      {/* Блок для навігації */}
+      <nav className={styles.mainNav}>
+        {" "}
+        {/* Клас mainNav */}
         <NavLink
           to="/"
-          className={({ isActive }) => `${s.link} ${isActive ? "active" : ""}`}
+          end
+          className={({ isActive }) =>
+            `${styles.navLink} ${isActive ? styles.activeLink : ""}`
+          }
         >
           Home
         </NavLink>
         <NavLink
           to="/catalog"
-          className={({ isActive }) => `${s.link} ${isActive ? "active" : ""}`}
+          className={({ isActive }) =>
+            `${styles.navLink} ${isActive ? styles.activeLink : ""}`
+          }
         >
           Catalog
         </NavLink>
       </nav>
+      {/* Порожній div для правої секції, щоб flexbox працював правильно */}
+      <div className={styles.rightSection}></div>
     </header>
   );
-}
+};
+
+export default HeaderBar;

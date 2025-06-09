@@ -2,10 +2,10 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background: var(--clr-bg);
+    background: var(--clr-light-bg);
 }
 
 .main {
     flex: 1;
-    padding-block: 2rem;
+    
 }

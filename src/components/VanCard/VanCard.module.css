@@ -1,97 +1,219 @@
 /* src/components/VanCard/VanCard.module.css */
-.card {
+
+.vanCard {
+    display: flex;
+    flex-direction: row;
+    /* Вміст буде поруч: зображення ліворуч, інфо праворуч */
+    background-color: var(--clr-card-bg, #fff);
+    border: 1px solid var(--clr-border-light, #DADEE1);
+    border-radius: 20px;
+    padding: 24px;
+    /* Внутрішні відступи картки */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-
-    border: 1px solid var(--clr-surfaceDim);
-    border-radius: var(--radius-lg);
-    background: var(--clr-surface);
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.25s, box-shadow 0.25s;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-}
-
-.thumb {
+    /* Важливо: для позиціонування favoriteButton */
     width: 100%;
-    height: 11rem;
-    /* ≈ 44 px × 4 */
-    object-fit: cover;
-    transition: transform 0.3s;
+    /* Картка тепер займає всю ширину батьківського контейнера */
+    gap: 24px;
+    /* Відступ між зображенням та інформаційним блоком */
 }
 
-.card:hover .thumb {
-    transform: scale(1.05);
+.vanCard:hover {
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-.body {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding: 1rem;
-}
-
-.title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--clr-text);
-    margin-bottom: 0.25rem;
-}
-
-.location {
-    font-size: 0.875rem;
-    color: var(--clr-muted);
-    margin-bottom: 1rem;
-}
-
-.price {
-    font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 1rem;
-    color: var(--clr-text);
-}
-
-.cta {
-    align-self: flex-start;
-    padding: 0.375rem 1rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.875rem;
-    font-weight: 500;
-    background: var(--clr-primary);
-    color: #fff;
-    text-decoration: none;
-    transition: background 0.25s;
-}
-
-.cta:hover {
-    background: var(--clr-primary-hover);
-}
-
-.favBtn {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: rgba(0 0 0 / 0.35);
+/* Кнопка обраного (тепер зірка) */
+.favoriteButton {
+    background: none;
     border: none;
     cursor: pointer;
+    position: absolute;
+    /* Позиціонування відносно .vanCard */
+    top: 24px;
+    /* Відступ зверху картки */
+    right: 24px;
+    /* Відступ справа картки */
+    z-index: 10;
+    /* Переконайтеся, що вона над іншими елементами */
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
 }
 
-.favBtn svg {
-    fill: #facc15;
+.starOutline,
+.starFilled {
+    width: 24px;
+    height: 24px;
+    transition: fill 0.3s ease, stroke 0.3s ease;
 }
 
-.favBtn[aria-pressed=\"false\"] svg {
+.starOutline {
     fill: none;
-    stroke: #facc15;
-    stroke-width: 2px;
+    stroke: var(--clr-text-dark, #101828);
+    stroke-width: 1.5px;
+}
+
+.starFilled {
+    fill: #FFC531;
+    stroke: #FFC531;
+}
+
+.imageWrapper {
+    width: 290px;
+    /* Фіксована ширина зображення, як на Figma */
+    height: 310px;
+    /* Фіксована висота зображення, як на Figma */
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    /* Важливо: щоб зображення не зменшувалося, коли місце обмежене */
+}
+
+.vanImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+}
+
+.vanInfo {
+    flex: 1;
+    /* Дозволяє цьому блоку займати весь доступний простір */
+    display: flex;
+    flex-direction: column;
+    padding-right: 48px;
+    /* Додаємо відступ праворуч, щоб ціна не налізала на кнопку обраного */
+}
+
+.nameAndPrice {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.vanName {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--clr-text-dark, #101828);
+    margin: 0;
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.vanPrice {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--clr-text-dark, #101828);
+    margin: 0;
+    white-space: nowrap;
+}
+
+.vanReview {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.starRating {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--clr-text-dark, #101828);
+}
+
+.starRating .icon,
+.vanLocation .iconMap {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.starRating .icon {
+    fill: #FFC531;
+}
+
+.textRating {
+    color: var(--clr-text-dark, #101828);
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.textRating:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--clr-primary-red, #E44848);
+}
+
+.vanLocation {
+    font-size: 16px;
+    color: var(--clr-text-dark, #101828);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.vanEquipment {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.equipmentIcon {
+    padding: 10px 16px;
+    border-radius: 500px;
+    background-color: var(--clr-surface-light, #F2F4F7);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--clr-text-dark, #101828);
+}
+
+.equipmentIcon .icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.vanDescription {
+    margin-bottom: 24px;
+    line-height: 24px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--clr-text-dark, #101828);
+}
+
+.showMoreButton {
+    /* Стилі для Link, який виглядає як кнопка */
+    background-color: var(--clr-primary-red, #E44848);
+    color: #fff;
+    padding: 16px 40px;
+    width: auto;
+    border: none;
+    border-radius: 500px;
+    /* ЗМІНЕНО: Великий радіус для повністю заокругленої форми */
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+    margin-top: auto;
+    display: inline-block;
+}
+
+.showMoreButton:hover {
+    background-color: #D33D3D;
+    cursor: pointer;
 }

@@ -1,66 +1,131 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import cls from "./VanCard.module.css";
+import styles from "./VanCard.module.css";
 
-/**
- * Карточка одного кемпера‑фургона
- * @param {Object} props
- * @param {Object} props.van – об’єкт з API (id, name, price, gallery, location)
- */
-export default function VanCard({ van }) {
-  const [isFav, setIsFav] = useState(false);
+const VanCard = ({ van }) => {
+  const equipmentIcons = {
+    adults: "icon-users",
+    transmission: "icon-automatic",
+    engine: "icon-gas-pump",
+    kitchen: "icon-kitchen",
+    beds: "icon-bed",
+    airConditioner: "icon-ac",
+    toilet: "icon-wc",
+    shower: "icon-shower",
+  };
 
-  // завантажуємо стан «обраного» з localStorage
+  const [isFavorite, setIsFavorite] = useState(false);
+
   useEffect(() => {
-    const list = JSON.parse(localStorage.getItem("favVans")) || [];
-    setIsFav(list.includes(van.id));
+    const favoriteVans = JSON.parse(localStorage.getItem("favoriteVans")) || [];
+    setIsFavorite(favoriteVans.includes(van.id));
   }, [van.id]);
 
-  const toggleFav = (e) => {
-    e.stopPropagation();
-    const list = JSON.parse(localStorage.getItem("favVans")) || [];
-    const updated = isFav
-      ? list.filter((id) => id !== van.id)
-      : [...list, van.id];
-    localStorage.setItem("favVans", JSON.stringify(updated));
-    setIsFav(!isFav);
+  const handleFavoriteToggle = () => {
+    const favoriteVans = JSON.parse(localStorage.getItem("favoriteVans")) || [];
+    if (isFavorite) {
+      const updatedFavorites = favoriteVans.filter((id) => id !== van.id);
+      localStorage.setItem("favoriteVans", JSON.stringify(updatedFavorites));
+      setIsFavorite(false);
+    } else {
+      favoriteVans.push(van.id);
+      localStorage.setItem("favoriteVans", JSON.stringify(favoriteVans));
+      setIsFavorite(true);
+    }
+  };
+
+  const renderEquipmentIcons = () => {
+    const relevantData = van.details || van;
+
+    const displayedFeatures = [
+      { key: "adults", text: `${relevantData.adults || 0} adults` },
+      { key: "transmission", text: relevantData.transmission },
+      { key: "engine", text: relevantData.engine },
+      { key: "kitchen", text: "Kitchen" },
+      { key: "beds", text: `${relevantData.beds || 0} beds` },
+      { key: "airConditioner", text: "AC" },
+      { key: "toilet", text: "Toilet" },
+      { key: "shower", text: "Shower" },
+    ];
+
+    return displayedFeatures
+      .filter(
+        (feature) =>
+          relevantData[feature.key] ||
+          (relevantData.details && relevantData.details[feature.key])
+      )
+      .map((feature, index) => {
+        const iconKey = equipmentIcons[feature.key];
+        if (!iconKey) return null;
+
+        return (
+          <div key={index} className={styles.equipmentIcon}>
+            <svg className={styles.icon}>
+              <use href={`/images/icons.svg#${iconKey}`}></use>
+            </svg>
+            {feature.text}
+          </div>
+        );
+      });
+  };
+
+  const truncateText = (text, maxLength) => {
+    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
 
   const imgSrc =
-    Array.isArray(van?.gallery) && van.gallery.length
-      ? van.gallery[0]
-      : "/images/placeholder.jpg";
-
-  const priceUA = Number(van.price).toLocaleString("uk-UA", {
-    minimumFractionDigits: 2,
-  });
+    van.gallery && van.gallery.length > 0 && van.gallery[0].thumb
+      ? van.gallery[0].thumb
+      : "/placeholder.jpg";
 
   return (
-    <article className={cls.card}>
-      <img src={imgSrc} alt={van.name} className={cls.thumb} />
-
-      <button
-        aria-label="Add to favourites"
-        className={cls.favBtn}
-        onClick={toggleFav}
-      >
-        {isFav ? "★" : "☆"}
+    <div className={styles.vanCard}>
+      <button onClick={handleFavoriteToggle} className={styles.favoriteButton}>
+        <svg className={isFavorite ? styles.starFilled : styles.starOutline}>
+          <use href={`/images/icons.svg#icon-star`}></use>
+        </svg>
       </button>
 
-      <div className={cls.body}>
-        <h3 className={cls.title}>{van.name}</h3>
-        <p className={cls.location}>{van.location}</p>
-        <p className={cls.price}>{priceUA} ₴ / day</p>
+      <div className={styles.imageWrapper}>
+        <img src={imgSrc} alt={van.name} className={styles.vanImage} />
+      </div>
 
-        <Link
-          to={`/catalog/${van.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={cls.more}
-        >
-          Show more →
+      <div className={styles.vanInfo}>
+        <div className={styles.nameAndPrice}>
+          <h2 className={styles.vanName}>{van.name}</h2>
+          {/* ВИПРАВЛЕНО: Змінюємо форматування ціни */}
+          <p className={styles.vanPrice}>€{van.price.toFixed(2)}</p>{" "}
+          {/* Використовуємо toFixed(2) для 2 знаків після коми без роздільників */}
+        </div>
+
+        <div className={styles.vanReview}>
+          <span className={styles.starRating}>
+            <svg className={styles.icon}>
+              <use href={`/images/icons.svg#icon-star`}></use>
+            </svg>
+            <span className={styles.textRating}>
+              {van.rating} ({van.reviews ? van.reviews.length : 0} Reviews)
+            </span>
+          </span>
+          <span className={styles.vanLocation}>
+            <svg className={styles.iconMap}>
+              <use href="/images/icons.svg#icon-map"></use>
+            </svg>
+            {van.location}
+          </span>
+        </div>
+
+        <div className={styles.vanEquipment}>{renderEquipmentIcons()}</div>
+        <p className={styles.vanDescription}>
+          {truncateText(van.description, 100)}
+        </p>
+
+        <Link to={`/catalog/${van.id}`} className={styles.showMoreButton}>
+          Show more
         </Link>
       </div>
-    </article>
+    </div>
   );
-}
+};
+
+export default VanCard;

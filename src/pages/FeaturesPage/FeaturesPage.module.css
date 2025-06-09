@@ -1,0 +1,107 @@
+/* src/pages/FeaturesPage/FeaturesPage.module.css */
+
+.featuresContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    /* Відстань між секціями обладнання та деталей */
+    /* background-color: #fff; */
+    /* Фоновий колір буде визначатися батьківським компонентом */
+    /* border-radius: 10px; */
+    /* Бордер-радіус також може бути на батьківському контейнері, якщо це частина спільної картки */
+}
+
+.equipment {
+    display: flex;
+    flex-wrap: wrap;
+    /* Дозволяє елементам переноситися на наступний рядок */
+    gap: 15px;
+    /* Відстань між окремими елементами обладнання */
+}
+
+.featureItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* Відстань між іконкою та текстом */
+    padding: 10px 16px;
+    /* Внутрішні відступи плашки */
+    background-color: var(--clr-surface-light, #F2F4F7);
+    /* Світло-сірий фон, як у VanCard */
+    color: var(--clr-text-dark, #101828);
+    /* Темний колір тексту */
+    border-radius: 500px;
+    /* Сильне заокруглення (pill shape) */
+    font-size: 16px;
+    /* Розмір шрифту */
+    font-weight: 500;
+    /* Середня вага шрифту */
+    /* border: 1px solid #e5e5e5; - Якщо потрібна тонка рамка */
+}
+
+.icon {
+    width: 20px;
+    /* Розмір іконки */
+    height: 20px;
+    fill: currentColor;
+    /* Іконка успадковує колір тексту */
+}
+
+.details {
+    border-top: 1px solid var(--clr-border-light, #DADEE1);
+    /* Лінія розділення */
+    padding-top: 24px;
+    /* Відступ від лінії */
+    margin-top: -6px;
+    /* Для вирівнювання з макетом, якщо є gap між секціями */
+}
+
+.details h3 {
+    font-size: 20px;
+    /* Розмір заголовка */
+    font-weight: 600;
+    /* Жирний шрифт */
+    margin-bottom: 16px;
+    /* Відступ під заголовком */
+    color: var(--clr-text-dark, #101828);
+    /* Темний колір заголовка */
+}
+
+.detailList {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    /* Відстань між рядками деталей */
+}
+
+.detailRow {
+    display: flex;
+    justify-content: space-between;
+    /* Рознести текст по краях */
+    align-items: center;
+    font-size: 16px;
+    /* Розмір тексту */
+    color: var(--clr-text-dark, #101828);
+    /* Темний колір тексту */
+    padding-bottom: 14px;
+    /* Відступ під рядком */
+    border-bottom: 1px solid rgba(16, 24, 40, 0.1);
+    /* Тонка лінія під кожним рядком */
+}
+
+.detailRow:last-child {
+    border-bottom: none;
+    /* Немає лінії під останнім рядком */
+    padding-bottom: 0;
+    /* Немає відступу під останнім рядком */
+}
+
+.detailRow p:first-child {
+    font-weight: 500;
+    /* Вага шрифту для назви деталі */
+}
+
+.detailRow p:last-child {
+    font-weight: 400;
+    /* Вага шрифту для значення деталі */
+}

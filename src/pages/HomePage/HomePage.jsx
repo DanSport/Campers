@@ -1,9 +1,19 @@
-import css from "./HomePage.module.css";
+// HomePage.jsx
+import { NavLink } from "react-router-dom";
+import styles from "./HomePage.module.css";
+
 export default function HomePage() {
   return (
-    <section className={css.hero}>
-      <h1>Welcome to Road Riders 🚐</h1>
-      <p>Pick a camper-van and start your trip today.</p>
+    <section className={styles.hero}>
+      <div className={styles.background} />
+      <div className={styles.overlay} />
+      <div className={styles.content}>
+        <h1>Campers of your dreams</h1>
+        <p>You can find everything you want in our catalog</p>
+        <NavLink to="/catalog" className={styles.cta}>
+          View Now
+        </NavLink>
+      </div>
     </section>
   );
 }

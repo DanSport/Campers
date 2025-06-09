@@ -1,21 +1,60 @@
 .hero {
-    max-width: 48rem;
-    margin-inline: auto;
-    text-align: center;
-    padding-block: 6rem;
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    margin: 0;
+    aspect-ratio: 16/9;
+    /* Якщо main обгортає hero-секцію і має padding-block: 2rem;,
+       то вам потрібно відняти 2rem (зверху) + 2rem (знизу) = 4rem */
+    height: calc(100vh - var(--header-height) - 4rem);
+    overflow: hidden;
     background: url("/images/hero.jpeg") center/cover no-repeat;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
 }
 
-.hero h1 {
-    font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
-    line-height: 1.15;
-    font-weight: 700;
-    margin-bottom: 1rem;
+
+.background {
+    position: absolute;
+    inset: 0;
+    background-image: url("/images/hero.jpeg");
+    background-size: cover;
+    /* масштабування по ширині/висоті */
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
-.hero p {
-    color: var(--clr-muted);
+.overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 1rem;
+    color: white;
+    text-align: center;
+}
+
+.content h1 {
+    font-size: clamp(2rem, 6vw, 4rem);
+    margin-bottom: 0.5rem;
+}
+
+.content p {
+    margin-bottom: 1.5rem;
     font-size: 1.125rem;
+}
+
+.content .cta {
+    padding: 0.75rem 1.5rem;
+    background-color: #ef4444;
+    color: white;
+    border-radius: 0.5rem;
+    font-weight: 500;
 }

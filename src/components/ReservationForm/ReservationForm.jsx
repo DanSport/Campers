@@ -1,7 +1,7 @@
 import { useState } from "react";
-import styles from "./BookingForm.module.css";
+import styles from "./ReservationForm.module.css";
 
-export default function BookingForm({ vanName, onSuccess }) {
+export default function ReservationForm({ vanName, onSuccess }) {
   const [form, setForm] = useState({ name: "", email: "", date: "" });
 
   const handleChange = (e) =>
@@ -9,7 +9,6 @@ export default function BookingForm({ vanName, onSuccess }) {
 
   const submit = (e) => {
     e.preventDefault();
-    // тут можна зробити POST на бекенд, поки — «фейк»
     setTimeout(() => {
       onSuccess?.();
       setForm({ name: "", email: "", date: "" });
