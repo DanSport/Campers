@@ -5,28 +5,58 @@
     width: 360px;
 }
 
+.sidebar h3 {
+    display: block;
+    color: var(--clr-text-primary);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    margin-top: 0;
+}
+
 .locationWrapper {
     display: flex;
     align-items: center;
     margin-bottom: 40px;
+    background-color: #f7f7f7;
+    border-radius: 12px;
+    /* Якщо ви хочете, щоб фон #f7f7f7 був і за іконкою, і за полем вводу,
+       то вам потрібно переконатися, що <input> має transparent background-color.
+       Він вже встановлений нижче в .inputFieldWithIcon
+       і padding на .locationWrapper для всього контейнера зсередини */
+    padding: 18px 20px 18px 20px;
+    /* Додано padding для locationWrapper, щоб відповідати макету: top, right, bottom, left */
 }
 
 .locationWrapper .icon {
     width: 20px;
     height: 20px;
     fill: #121417;
+    /* Ось тут додаємо margin-right */
     margin-right: 8px;
+    /* Відступ між іконкою та полем вводу */
+    /* margin-left: 20px; - цей рядок тепер не потрібен, оскільки padding вже є у .locationWrapper */
+    flex-shrink: 0;
+    /* Запобігає стисканню іконки */
 }
 
 .inputFieldWithIcon {
     flex-grow: 1;
-    padding: 12px 16px;
+    /* padding: 12px 16px; - ці падінги тепер перекриваються padding з .locationWrapper,
+                          тому їх можна видалити або залишити 0.
+                          Якщо ви хочете, щоб input мав додатковий внутрішній відступ,
+                          то залиште їх, але вони додадуться до відступів від .locationWrapper */
+    padding: 0;
+    /* Рекомендується обнулити, якщо батьківський елемент має padding */
     border: none;
-    border-radius: 4px;
-    background-color: #f7f7f7;
+    background-color: transparent;
+    /* Важливо для прозорого фону */
     font-size: 16px;
     line-height: 24px;
     color: #121417;
+    outline: none;
+    /* Прибрати рамку фокусу */
 }
 
 .inputFieldWithIcon::placeholder {
@@ -34,8 +64,9 @@
 }
 
 .filtersTitle {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 16px;
+    color: var(--clr-text-primary);
+    font-weight: 500;
     line-height: 24px;
     margin-bottom: 24px;
 }
@@ -79,8 +110,8 @@
 .filterGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 32px;
+    gap: 12px;
+    margin-bottom: 40px;
 }
 
 .filterItem {
@@ -103,7 +134,7 @@
 
 .filterItem.selected {
     border-color: #e44848;
-    background-color: #fbe4e4;
+    background-color: transparent;
 }
 
 .filterItem .icon {
@@ -114,7 +145,7 @@
 }
 
 .filterItem.selected .icon {
-    fill: #e44848;
+    fill: #121417;
 }
 
 .filterItem span {
@@ -126,7 +157,7 @@
 }
 
 .filterItem.selected span {
-    color: #e44848;
+    color: #121417;
 }
 
 .checkbox {
@@ -138,18 +169,23 @@
 }
 
 .searchButton {
-    width: 100%;
-    padding: 16px;
+    width: 166px;
+    padding: 16px 60px;
+    height: 56px;
     background-color: #e44848;
     color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: 200px;
     font-size: 16px;
     font-weight: 600;
     line-height: 24px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .searchButton:hover {
-    background-color: #d13d3d; }
+    background-color: #d13d3d;
+}

@@ -125,7 +125,7 @@ const VanCard = ({ van }) => {
     <div className={styles.vanCard}>
       <button onClick={handleFavoriteToggle} className={styles.favoriteButton}>
         <svg className={isFavorite ? styles.starFilled : styles.starOutline}>
-          <use href={`/images/icons.svg#icon-star`}></use>
+          <use href={`/images/icons.svg#icon-heart`}></use>
         </svg>
       </button>
 

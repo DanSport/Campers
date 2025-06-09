@@ -48,8 +48,7 @@
 }
 
 .starFilled {
-    fill: #FFC531;
-    stroke: #FFC531;
+    stroke: #E44848;
 }
 
 .imageWrapper {
@@ -110,7 +109,7 @@
 .starRating {
     font-size: 16px;
     font-weight: 500;
-    color: var(--clr-text-dark, #101828);
+    fill: #FFC531;;
 }
 
 .starRating .icon,
@@ -203,3 +202,16 @@
     background-color: #D33D3D;
     cursor: pointer;
 }
+
+.heartIcon {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #121417;
+    transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+
+.favoriteButton:hover .heartIcon {
+    stroke: #E44848;
+    }

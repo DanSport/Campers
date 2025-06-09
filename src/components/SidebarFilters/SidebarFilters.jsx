@@ -1,44 +1,42 @@
 // src/components/SidebarFilters/SidebarFilters.jsx
-import { useState, useEffect } from "react"; 
+
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchVans } from "../../store/vanSlice";
 import styles from "./SidebarFilters.module.css";
-
 
 const optionIcons = {
   AC: "icon-ac",
   Automatic: "icon-automatic",
   Kitchen: "icon-kitchen",
   TV: "icon-tv",
-  Bathroom: "icon-bathroom", 
+  Bathroom: "icon-bathroom",
 };
 
 const vehicleTypeIcons = {
   Van: "icon-van",
-  "Fully Integrated": "icon-fully-integrated", 
+  "Fully Integrated": "icon-integrated",
   Alcove: "icon-alcove",
 };
 
+
 export default function SidebarFilters({ onFilter }) {
   const dispatch = useDispatch();
-  
+
   const { savedFilters = {} } = useSelector((state) => state.vans);
 
   const [location, setLocation] = useState(savedFilters.location || "");
 
-  
   const [options, setOptions] = useState({
     AC: savedFilters.options?.AC || false,
     Automatic: savedFilters.options?.Automatic || false,
     Kitchen: savedFilters.options?.Kitchen || false,
     TV: savedFilters.options?.TV || false,
-    Bathroom: savedFilters.options?.Bathroom || false, 
+    Bathroom: savedFilters.options?.Bathroom || false,
   });
 
-  
-  const [vehicleType, setVehicleType] = useState(savedFilters.form || ""); 
+  const [vehicleType, setVehicleType] = useState(savedFilters.form || "");
 
-  
   useEffect(() => {
     setLocation(savedFilters.location || "");
     setOptions({
@@ -58,7 +56,6 @@ export default function SidebarFilters({ onFilter }) {
   };
 
   const handleVehicleTypeChange = (e) => {
-    
     setVehicleType((prevType) =>
       prevType === e.target.name ? "" : e.target.name
     );
@@ -67,15 +64,17 @@ export default function SidebarFilters({ onFilter }) {
   const handleSearch = () => {
     const filterData = {
       location,
-      options, 
-      form: vehicleType, 
+      options,
+      form: vehicleType,
     };
 
     dispatch(fetchVans({ page: 1, filters: filterData }));
     if (onFilter) onFilter(filterData);
   };
 
- 
+  // !!! Цю функцію handleClearFilters можна залишити,
+  //     якщо ви плануєте використовувати її деінде,
+  //     або видалити, якщо вона більше не потрібна.
   const handleClearFilters = () => {
     setLocation("");
     setOptions({
@@ -84,10 +83,10 @@ export default function SidebarFilters({ onFilter }) {
       Kitchen: false,
       TV: false,
       Bathroom: false,
-      Microwave: false,
+      Microwave: false, // Переконайтеся, що Microwave тут обробляється правильно, якщо він є у ваших даних
     });
-    setVehicleType(""); 
-    
+    setVehicleType("");
+
     dispatch(
       fetchVans({ page: 1, filters: { location: "", options: {}, form: "" } })
     );
@@ -95,7 +94,7 @@ export default function SidebarFilters({ onFilter }) {
 
   return (
     <aside className={styles.sidebar}>
-      <h3>Location</h3>
+      <h3>Location </h3>
       <div className={styles.locationWrapper}>
         <svg className={styles.icon}>
           <use href="/images/icons.svg#icon-map"></use>
@@ -108,17 +107,19 @@ export default function SidebarFilters({ onFilter }) {
           className={styles.inputFieldWithIcon}
         />
       </div>
-      <h3 className={styles.filtersTitle}>Filters</h3>{" "}
-      {}
+      <h3 className={styles.filtersTitle}>Filters</h3>
       <div className={styles.filterGroup}>
-        {" "}
-        {}
         <h3>Vehicle equipment</h3>
         <hr className={styles.line} />
-        <button onClick={handleClearFilters} className={styles.clearAllButton}>
+        {/* ВИДАЛИТИ ЦЕЙ БЛОК: */}
+        {/* <button onClick={handleClearFilters} className={styles.clearAllButton}>
           Clear All
-        </button>{" "}
-        {}
+        </button> */}
+        {/* Якщо ви хочете, щоб "Clear All" було просто текстом, як на макеті "Clear All" у "Filters",
+            а не кнопкою, то його потрібно буде додати окремим `span` або `div` і стилізувати.
+            Але згідно з другим скріншотом, там немає "Clear All" взагалі поруч з "Vehicle equipment".
+            Якщо ви мали на увазі "Clear All" у верхньому правому куті блоку "Filters",
+            то це вже інше місце. На макеті цієї кнопки взагалі немає. */}
       </div>
       <div className={styles.filterGrid}>
         {Object.keys(options).map((opt) => (
@@ -139,7 +140,6 @@ export default function SidebarFilters({ onFilter }) {
               <use href={`/images/icons.svg#${optionIcons[opt]}`}></use>
             </svg>
             <span>
-              {}
               {opt === "FullyIntegrated"
                 ? "Fully Integrated"
                 : opt === "Automatic"
@@ -152,34 +152,29 @@ export default function SidebarFilters({ onFilter }) {
       <h3>Vehicle type</h3>
       <hr className={styles.line} />
       <div className={styles.filterGrid}>
-        {Object.keys(vehicleTypeIcons).map(
-          (
-            type 
-          ) => (
-            <label
-              key={type}
-              data-name={type}
-              className={`${styles.filterItem} ${
-                vehicleType === type ? styles.selected : "" 
-              }`}
-            >
-              <input
-                type="checkbox" 
-                name={type}
-                        checked={vehicleType === type} 
-                        
-                onChange={handleVehicleTypeChange}
-                className={styles.checkbox}
-              />
-              <svg className={styles.icon}>
-                <use href={`/images/icons.svg#${vehicleTypeIcons[type]}`}></use>
-              </svg>
-              <span>
-                {type === "FullyIntegrated" ? "Fully Integrated" : type}
-              </span>
-            </label>
-          )
-        )}
+        {Object.keys(vehicleTypeIcons).map((type) => (
+          <label
+            key={type}
+            data-name={type}
+            className={`${styles.filterItem} ${
+              vehicleType === type ? styles.selected : ""
+            }`}
+          >
+            <input
+              type="checkbox"
+              name={type}
+              checked={vehicleType === type}
+              onChange={handleVehicleTypeChange}
+              className={styles.checkbox}
+            />
+            <svg className={styles.icon}>
+              <use href={`/images/icons.svg#${vehicleTypeIcons[type]}`}></use>
+            </svg>
+            <span>
+              {type === "FullyIntegrated" ? "Fully Integrated" : type}
+            </span>
+          </label>
+        ))}
       </div>
       <button className={styles.searchButton} onClick={handleSearch}>
         Search
