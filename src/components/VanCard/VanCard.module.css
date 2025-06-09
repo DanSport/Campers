@@ -3,39 +3,29 @@
 .vanCard {
     display: flex;
     flex-direction: row;
-    /* Вміст буде поруч: зображення ліворуч, інфо праворуч */
     background-color: var(--clr-card-bg, #fff);
     border: 1px solid var(--clr-border-light, #DADEE1);
     border-radius: 20px;
     padding: 24px;
-    /* Внутрішні відступи картки */
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
     transition: box-shadow 0.3s ease;
     position: relative;
-    /* Важливо: для позиціонування favoriteButton */
-    width: 100%;
-    /* Картка тепер займає всю ширину батьківського контейнера */
+    width: 888px;
     gap: 24px;
-    /* Відступ між зображенням та інформаційним блоком */
 }
 
 .vanCard:hover {
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* Кнопка обраного (тепер зірка) */
 .favoriteButton {
     background: none;
     border: none;
     cursor: pointer;
     position: absolute;
-    /* Позиціонування відносно .vanCard */
     top: 24px;
-    /* Відступ зверху картки */
     right: 24px;
-    /* Відступ справа картки */
     z-index: 10;
-    /* Переконайтеся, що вона над іншими елементами */
     padding: 0;
     display: flex;
     align-items: center;
@@ -64,13 +54,10 @@
 
 .imageWrapper {
     width: 290px;
-    /* Фіксована ширина зображення, як на Figma */
     height: 310px;
-    /* Фіксована висота зображення, як на Figma */
     border-radius: 10px;
     overflow: hidden;
     flex-shrink: 0;
-    /* Важливо: щоб зображення не зменшувалося, коли місце обмежене */
 }
 
 .vanImage {
@@ -83,11 +70,9 @@
 
 .vanInfo {
     flex: 1;
-    /* Дозволяє цьому блоку займати весь доступний простір */
     display: flex;
     flex-direction: column;
     padding-right: 48px;
-    /* Додаємо відступ праворуч, щоб ціна не налізала на кнопку обраного */
 }
 
 .nameAndPrice {
@@ -168,25 +153,28 @@
 }
 
 .equipmentIcon {
-    padding: 10px 16px;
-    border-radius: 500px;
-    background-color: var(--clr-surface-light, #F2F4F7);
-    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--clr-light-bg);
+    padding: 8px 12px;
+    border-radius: 20px;
+    color: var(--clr-text-dark);
     font-weight: 500;
-    color: var(--clr-text-dark, #101828);
+    font-size: 14px;
+    line-height: 24px;
 }
 
 .equipmentIcon .icon {
     width: 20px;
     height: 20px;
-    fill: currentColor;
-}
+    fill: var(--clr-text-dark);
+    stroke: var(--clr-text-dark); }
 
 .vanDescription {
     margin-bottom: 24px;
     line-height: 24px;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -194,14 +182,12 @@
 }
 
 .showMoreButton {
-    /* Стилі для Link, який виглядає як кнопка */
     background-color: var(--clr-primary-red, #E44848);
     color: #fff;
     padding: 16px 40px;
     width: auto;
     border: none;
     border-radius: 500px;
-    /* ЗМІНЕНО: Великий радіус для повністю заокругленої форми */
     font-size: 16px;
     font-weight: 500;
     line-height: 1.5;

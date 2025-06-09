@@ -17,7 +17,6 @@
     inset: 0;
     background-image: url("/images/hero.jpeg");
     background-size: cover;
-    /* масштабування по ширині/висоті */
     background-position: center center;
     background-repeat: no-repeat;
 }

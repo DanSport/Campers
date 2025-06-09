@@ -3,15 +3,35 @@ import { useState, useEffect } from "react";
 import styles from "./VanCard.module.css";
 
 const VanCard = ({ van }) => {
+  
   const equipmentIcons = {
     adults: "icon-users",
     transmission: "icon-automatic",
-    engine: "icon-gas-pump",
-    kitchen: "icon-kitchen",
     beds: "icon-bed",
-    airConditioner: "icon-ac",
-    toilet: "icon-wc",
-    shower: "icon-shower",
+
+    
+    AC: "icon-ac",
+    Kitchen: "icon-kitchen",
+    Bathroom: "icon-bathroom",
+    TV: "icon-tv",
+    Radio: "icon-radio",
+    Refrigerator: "icon-solar_fridge-outline",
+    Microwave: "icon-microwave",
+    Gas: "icon-gas",
+    Water: "icon-water",
+  };
+
+ 
+  const optionDisplayNames = {
+    AC: "AC",
+    Kitchen: "Kitchen",
+    Bathroom: "Bathroom",
+    TV: "TV",
+    Radio: "Radio",
+    Refrigerator: "Refrigerator",
+    Microwave: "Microwave",
+    Gas: "Gas",
+    Water: "Water",
   };
 
   const [isFavorite, setIsFavorite] = useState(false);
@@ -36,37 +56,60 @@ const VanCard = ({ van }) => {
 
   const renderEquipmentIcons = () => {
     const relevantData = van.details || van;
+    const featuresToRender = [];
 
-    const displayedFeatures = [
-      { key: "adults", text: `${relevantData.adults || 0} adults` },
-      { key: "transmission", text: relevantData.transmission },
-      { key: "engine", text: relevantData.engine },
-      { key: "kitchen", text: "Kitchen" },
-      { key: "beds", text: `${relevantData.beds || 0} beds` },
-      { key: "airConditioner", text: "AC" },
-      { key: "toilet", text: "Toilet" },
-      { key: "shower", text: "Shower" },
-    ];
-
-    return displayedFeatures
-      .filter(
-        (feature) =>
-          relevantData[feature.key] ||
-          (relevantData.details && relevantData.details[feature.key])
-      )
-      .map((feature, index) => {
-        const iconKey = equipmentIcons[feature.key];
-        if (!iconKey) return null;
-
-        return (
-          <div key={index} className={styles.equipmentIcon}>
-            <svg className={styles.icon}>
-              <use href={`/images/icons.svg#${iconKey}`}></use>
-            </svg>
-            {feature.text}
-          </div>
-        );
+    
+    if (relevantData.adults) {
+      featuresToRender.push({
+        key: "adults",
+        text: `${relevantData.adults} adults`,
+        icon: equipmentIcons.adults,
       });
+    }
+    if (relevantData.beds) {
+      featuresToRender.push({
+        key: "beds",
+        text: `${relevantData.beds} beds`,
+        icon: equipmentIcons.beds,
+      });
+    }
+
+    
+    if (relevantData.transmission) {
+      featuresToRender.push({
+        key: "transmission",
+        text: relevantData.transmission, 
+        icon: equipmentIcons.transmission,
+      });
+    }
+
+    
+    const booleanOptionKeys = Object.keys(optionDisplayNames);
+
+    booleanOptionKeys.forEach((key) => {
+      
+      if (relevantData[key] === true) {
+        featuresToRender.push({
+          key: key,
+          text: optionDisplayNames[key] || key, 
+          icon: equipmentIcons[key],
+        });
+      }
+    });
+
+    
+    return featuresToRender.map((feature) => {
+      if (!feature.icon) return null;
+
+      return (
+        <div key={feature.key} className={styles.equipmentIcon}>
+          <svg className={styles.icon}>
+            <use href={`/images/icons.svg#${feature.icon}`}></use>
+          </svg>
+          <span>{feature.text}</span>
+        </div>
+      );
+    });
   };
 
   const truncateText = (text, maxLength) => {
@@ -93,9 +136,7 @@ const VanCard = ({ van }) => {
       <div className={styles.vanInfo}>
         <div className={styles.nameAndPrice}>
           <h2 className={styles.vanName}>{van.name}</h2>
-          {/* ВИПРАВЛЕНО: Змінюємо форматування ціни */}
-          <p className={styles.vanPrice}>€{van.price.toFixed(2)}</p>{" "}
-          {/* Використовуємо toFixed(2) для 2 знаків після коми без роздільників */}
+          <p className={styles.vanPrice}>€{van.price.toFixed(2)}</p>
         </div>
 
         <div className={styles.vanReview}>

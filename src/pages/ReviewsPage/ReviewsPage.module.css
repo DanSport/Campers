@@ -1,17 +1,113 @@
-.list {
-    display: grid;
-    gap: 1.25rem;
+/* src/pages/ReviewsPage/ReviewsPage.module.css */
+
+.reviewsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    /* Відступ між картками відгуків */
+    margin-top: 44px;
+    /* Відступ від вкладок навігації */
 }
 
-.card {
-    background: var(--clr-surface);
-    padding: 1rem 1.25rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--clr-surfaceDim);
+.noReviews {
+    font-size: 16px;
+    color: var(--clr-text-primary);
+    margin-top: 20px;
+    text-align: center;
 }
 
-.stars {
+.review {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    /* Відступ між заголовком та текстом відгуку */
+    background-color: var(--clr-card-bg, #FFFFFF);
+    /* Використовуємо глобальну змінну */
+    padding: 24px;
+    /* Внутрішні відступи картки */
+    border-radius: var(--radius-md, 10px);
+    /* Використовуємо глобальну змінну */
+    box-shadow: var(--shadow-sm);
+    /* Додаємо тінь, якщо потрібно */
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    /* Відступ між аватаром та групою ім'я/рейтинг */
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    background-color: var(--clr-surface-light, #F2F4F7);
+    /* Світлий фон аватара */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--clr-primary-red, #E44848);
+    /* Колір літери в аватарі */
+    flex-shrink: 0;
+    /* Запобігаємо стисненню аватара */
+}
+
+.author {
+    font-weight: 600;
+    /* Зробимо жирнішим */
+    font-size: 18px;
+    /* Розмір імені */
+    color: var(--clr-text-dark, #101828);
+    /* Колір імені оглядача */
+    margin-bottom: 4px;
+    /* Відступ між ім'ям та рейтингом */
+    display: block;
+    /* Щоб rating йшов на новий рядок */
+}
+
+.rating {
     display: flex;
     gap: 2px;
-    margin-top: 2px;
+    /* Відступ між зірками */
+}
+
+/* Базові стилі для всіх зірок SVG */
+.starIcon {
+    width: 16px;
+    height: 16px;
+    /* За замовчуванням колір тексту (і відповідно fill/stroke) - жовтий */
+    color: #FFC531;
+    /* Встановлює колір для currentColor */
+    fill: currentColor;
+    /* SVG успадкує цей колір */
+    stroke: none;
+    /* За замовчуванням немає обведення */
+}
+/* Стилі для зірок, які НЕ є заповненими (порожні зірки) */
+/* Збільшуємо специфічність, щоб перебити базовий .starIcon, якщо це порожня зірка */
+.rating .starIcon:not(.starFilled) {
+    fill: transparent;
+    /* Робимо внутрішній колір прозорим */
+    stroke: currentColor;
+    /* Обведення буде кольором тексту (жовтим) */
+    stroke-width: 1px;
+}
+
+/* Стилі для заповнених зірок */
+/* Цей стиль залишається, щоб переконатися, що заповнені зірки завжди жовті, */
+/* перевизначаючи, якщо потрібно, стилі :not(.starFilled) */
+.rating .starFilled {
+    fill: currentColor;
+    /* Заповнення буде кольором тексту (жовтим) */
+    stroke: none;
+    /* Прибираємо обведення */
+}
+.text {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--clr-text-primary, #475467);
+    /* Колір тексту відгуку */
 }

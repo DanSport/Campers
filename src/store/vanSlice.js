@@ -5,10 +5,9 @@ import axios from "axios";
 
 const BASE_URL = "https://66b1f8e71ca8ad33d4f5f63e.mockapi.io/campers";
 
-// ────────── THUNKS ──────────
 export const fetchVans = createAsyncThunk(
   "vans/fetchVans",
-  async ({ page, filters = {} }, thunkAPI) => {
+  async ({ page = 1, filters = {} }, thunkAPI) => {
     try {
       let query = `page=${page}&limit=6`;
 
@@ -16,21 +15,34 @@ export const fetchVans = createAsyncThunk(
         query += `&location=${encodeURIComponent(filters.location)}`;
       }
 
-      // опції (чекбокси)
-      Object.entries(filters.options || {}).forEach(([key, value]) => {
-        if (value) query += `&${key.toLowerCase()}=true`;
-      });
+      const response = await axios.get(`${BASE_URL}?${query}`);
+      let { items } = response.data;
 
-      // тип транспорту (radio)
-      if (filters.form) {
-        query += `&form=${encodeURIComponent(filters.form)}`;
+      let filteredItems = items;
+
+      const selectedOptions = Object.keys(filters.options || {}).filter(
+        (key) => filters.options[key]
+      );
+      if (selectedOptions.length > 0) {
+        filteredItems = filteredItems.filter((van) => {
+          return selectedOptions.every((optionKey) => {
+            return van[optionKey.toLowerCase()] === true;
+          });
+        });
       }
 
-      const response = await axios.get(`${BASE_URL}?${query}`);
-      // API повертає { total: Number, items: Array }
-      const { total, items } = response.data;
+      if (filters.form) {
+        filteredItems = filteredItems.filter((van) => {
+          return van.form.toLowerCase() === filters.form.toLowerCase();
+        });
+      }
 
-      return { items, total, page, filters };
+      return {
+        items: filteredItems,
+        totalItemsFetched: items.length,
+        page,
+        filters,
+      };
     } catch (err) {
       return thunkAPI.rejectWithValue(
         err.response?.data?.message || "Failed to fetch vans"
@@ -53,48 +65,55 @@ export const fetchVanDetails = createAsyncThunk(
   }
 );
 
-// ────────── SLICE ──────────
 const vanSlice = createSlice({
   name: "vans",
   initialState: {
-    vans: [], // масив обʼєктів ванів
-    total: 0, // загальна кількість записів
-    currentVan: null, // обʼєкт деталей
-    status: "idle", // idle | loading | succeeded | failed
+    displayedVans: [],
+    allVans: [],
+    total: 0,
+    currentVan: null,
+    status: "idle",
     error: null,
     page: 1,
     savedFilters: {},
+    hasMore: true,
   },
   reducers: {
-    loadMore: (state) => {
+    loadMoreVans: (state) => {
+      
       state.page += 1;
     },
   },
   extraReducers: (builder) => {
     builder
-      // ---- fetchVans ----
       .addCase(fetchVans.pending, (state) => {
         state.status = "loading";
         state.error = null;
       })
       .addCase(fetchVans.fulfilled, (state, { payload }) => {
-        const { items, total, page, filters } = payload;
+        const { items, totalItemsFetched, page, filters } = payload;
         const sameFilter =
           JSON.stringify(state.savedFilters) === JSON.stringify(filters);
 
         state.status = "succeeded";
         state.page = page;
-        state.total = total;
-        state.vans =
-          page === 1 || !sameFilter ? items : [...state.vans, ...items];
+
+        if (page === 1 || !sameFilter) {
+          state.displayedVans = items;
+          state.total = items.length; 
+        } else {
+          state.displayedVans = [...state.displayedVans, ...items];
+          state.total = state.displayedVans.length; 
+        }
+
+        state.hasMore = totalItemsFetched === 6;
+
         state.savedFilters = filters;
       })
       .addCase(fetchVans.rejected, (state, { payload }) => {
         state.status = "failed";
         state.error = payload;
       })
-
-      // ---- fetchVanDetails ----
       .addCase(fetchVanDetails.pending, (state) => {
         state.status = "loading";
         state.currentVan = null;
@@ -116,5 +135,5 @@ const vanSlice = createSlice({
   },
 });
 
-export const { loadMore } = vanSlice.actions;
+export const { loadMoreVans } = vanSlice.actions; 
 export default vanSlice.reducer;

@@ -5,20 +5,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchVanDetails } from "../../store/vanSlice";
 import ReservationForm from "../../components/ReservationForm/ReservationForm";
 import { toast } from "react-hot-toast";
-import styles from "./VanDetailsPage.module.css"; // Імпортуємо стилі
+import styles from "./VanDetailsPage.module.css";
 
 export default function VanDetailsPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  // Отримуємо дані про поточний фургон з Redux
-  const { currentVan, status, error } = useSelector((state) => state.vans); // Змінено 's' на 'state' для читабельності
+  const { currentVan, status, error } = useSelector((state) => state.vans);
 
   useEffect(() => {
-    // Завантажуємо деталі фургона при монтуванні компонента або зміні id
     dispatch(fetchVanDetails(id));
   }, [dispatch, id]);
 
-  // Відображення станів завантаження та помилок
   if (status === "loading")
     return <div className={styles.statusMessage}>Loading details...</div>;
   if (status === "failed")
@@ -26,18 +23,17 @@ export default function VanDetailsPage() {
   if (!currentVan)
     return <div className={styles.statusMessage}>Van details not found.</div>;
 
-  // Отримуємо URL першого зображення для мініатюри або плейсхолдер
   const mainImageUrl =
     currentVan.gallery && currentVan.gallery.length > 0
-      ? currentVan.gallery[0].original // Або .thumb, залежно від бажаного розміру
-      : "/placeholder-large.jpg"; // Замініть на реальний плейсхолдер, якщо є
+      ? currentVan.gallery[0].original
+      : "/placeholder-large.jpg";
 
   return (
     <div className={styles.detailsContainer}>
-      {/* Назва фургона */}
+      {}
       <h1 className={styles.vanName}>{currentVan.name}</h1>
 
-      {/* Рейтинг, локація та ціна */}
+      {}
       <div className={styles.infoRow}>
         <div className={styles.ratingLocationGroup}>
           <span className={styles.ratingText}>
@@ -54,11 +50,11 @@ export default function VanDetailsPage() {
             {currentVan.location}
           </span>
         </div>
-        {/* Ціна без toLocaleString(), тільки два знаки після коми */}
-        <div className={styles.vanPrice}>€{currentVan.price.toFixed(2)}</div>
+        {}
+        <div className={styles.vanPriceLarge}>
+          €{currentVan.price.toFixed(2)}
+        </div>
       </div>
-
-      {/* Галерея зображень */}
       <div className={styles.galleryGrid}>
         {currentVan.gallery && currentVan.gallery.length > 0 ? (
           currentVan.gallery.map((img, index) => (
@@ -78,14 +74,12 @@ export default function VanDetailsPage() {
         )}
       </div>
 
-      {/* Опис фургона */}
       <p className={styles.vanDescription}>{currentVan.description}</p>
 
-      {/* Навігаційні вкладки (Features, Reviews) */}
       <div className={styles.tabNavigation}>
         <NavLink
           to="features"
-          end // Важливо, щоб "features" була активною тільки коли шлях закінчується на /features
+          end
           className={({ isActive }) =>
             isActive ? styles.tabLinkActive : styles.tabLink
           }
@@ -102,10 +96,8 @@ export default function VanDetailsPage() {
         </NavLink>
       </div>
 
-      {/* Основний контент (FeaturesPage або ReviewsPage) та форма бронювання */}
       <div className={styles.contentAndBookingLayout}>
         <div className={styles.outletContent}>
-          {/* Outlet передає currentVan до вкладених компонентів (FeaturesPage, ReviewsPage) */}
           <Outlet context={{ van: currentVan }} />
         </div>
         <div className={styles.bookingFormSection}>

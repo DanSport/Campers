@@ -1,69 +1,42 @@
 /* CatalogPage.module.css */
 .catalogPageWrapper {
-    /* Новий клас для обгортки всієї сторінки каталогу */
-    background-color: var(--clr-light-bg);
-    /* Світлий фон для всієї сторінки каталогу */
+    background-color: var(--clr-card-bg);
     padding-top: 2rem;
-    /* Верхній відступ для всієї секції */
     padding-bottom: 2rem;
-    /* Нижній відступ для всієї секції */
     min-height: calc(100vh - var(--current-header-height));
-    /* Щоб зайняти весь простір під хедером */
 }
 
 .catalogPageContent {
-    /* Це буде внутрішній контейнер, що центрує вміст */
     display: grid;
     grid-template-columns: 360px 1fr;
-    /* Змінено: 360px для фільтрів (як у Figma), 1fr для списку кемперів */
     gap: 40px;
-    /* Змінено: Проміжок між фільтрами та списком */
     max-width: 1440px;
-    /* Обмеження максимальної ширини, як на Figma */
     margin-left: auto;
-    /* Центрування */
     margin-right: auto;
-    /* Центрування */
     padding-left: 64px;
-    /* Відступ зліва для вмісту, щоб відповідати дизайну */
     padding-right: 64px;
-    /* Відступ справа */
 }
 
-/* Стилі для лівої колонки - фільтрів */
-.filtersSection {
-    /* Змінено ім'я з .sidebarFilters для кращого розуміння */
-    /* Ширина вже задана в grid-template-columns */
-    /* Додайте стилі для самого SidebarFilters компонента, якщо потрібно */
-}
 
-/* Стилі для правої колонки - списку кемперів */
 .camperContainer {
-    /* Контейнер для сітки карток та кнопки "Load More" */
     display: flex;
     flex-direction: column;
     gap: 50px;
-    /* Збільшено відступ між сіткою карток та кнопкою "Load More" */
 }
 
 .camperList {
-    /* Сітка для карток кемперів */
     display: grid;
     grid-template-columns: 1fr;
     gap: 32px;
-    /* Змінено: Відстань між картками (горизонтально та вертикально) */
 }
 
 .loadMoreButton {
     align-self: center;
     padding: 16px 32px;
-    /* Збільшено padding для більшої кнопки */
     background-color: var(--clr-primary-red);
-    /* Використовуємо вашу змінну */
     color: #ffffff;
     border: none;
     border-radius: 200px;
-    /* Більш заокруглені кути */
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
@@ -73,7 +46,6 @@
 
 .loadMoreButton:hover {
     background-color: #D33D3D;
-    /* Темніший відтінок при наведенні */
 }
 
 .error {
@@ -84,3 +56,33 @@
     font-style: italic;
     color: var(--clr-muted-light);
 }
+.loaderWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    width: 100%;
+}
+
+.loadingMessage {
+    font-size: 1.5rem;
+    color: #555;
+    text-align: center;
+}
+
+.noVansMessage {
+    font-size: 1.2rem;
+    color: #888;
+    text-align: center;
+    margin-top: 50px;
+    width: 100%;
+}
+
+.errorMessage {
+    font-size: 1.2rem;
+    color: red;
+    text-align: center;
+    margin-top: 50px;
+    width: 100%;
+ }
+    

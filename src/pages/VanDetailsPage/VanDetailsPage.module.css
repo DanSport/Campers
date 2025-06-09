@@ -1,16 +1,13 @@
 /* src/pages/VanDetailsPage/VanDetailsPage.module.css */
 
 .detailsContainer {
-    max-width: 1120px;
-    /* Ширина контенту згідно макету */
+    max-width: 1440px;
     margin: 80px auto;
-    /* Центрування та відступ зверху/знизу */
     padding: 0 64px;
-    /* Внутрішні відступи по боках */
+
     display: flex;
     flex-direction: column;
     gap: 24px;
-    /* Загальний відступ між основними блоками */
 }
 
 .statusMessage {
@@ -22,10 +19,8 @@
 }
 
 .statusMessageError {
-    composes: statusMessage;
-    /* Успадковуємо базові стилі */
     color: var(--clr-primary-red, #E44848);
-    /* Червоний колір для помилок */
+
 }
 
 .vanName {
@@ -33,25 +28,21 @@
     font-weight: 600;
     color: var(--clr-text-dark, #101828);
     margin-bottom: 8px;
-    /* Відступ під назвою */
     line-height: 1.2;
 }
 
 .infoRow {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    /* Дозволяє елементам переноситися на менших екранах */
-    margin-bottom: 16px;
-    /* Відступ під цим рядком */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 24px;
 }
 
 .ratingLocationGroup {
     display: flex;
     align-items: center;
     gap: 16px;
-    /* Відступ між рейтингом та локацією */
     flex-wrap: wrap;
 }
 
@@ -63,54 +54,49 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    /* Відступ між іконкою та текстом */
 }
 
 .starIcon {
     width: 16px;
     height: 16px;
     fill: #FFC531;
-    /* Жовта зірка */
 }
 
 .locationIcon {
     width: 16px;
     height: 16px;
     fill: currentColor;
-    /* Колір іконки мапи такий же, як і текст */
 }
-
 .vanPrice {
     font-size: 24px;
     font-weight: 600;
     color: var(--clr-text-dark, #101828);
     white-space: nowrap;
-    /* Щоб ціна не переносилася */
 }
 
 .galleryGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-    /* Адаптивна сітка для зображень */
+    grid-template-columns: repeat(auto-fill, minmax(292px, 1fr));
     gap: 16px;
-    /* Відступ між зображеннями */
     margin-bottom: 24px;
-    /* Відступ під галереєю */
 }
 
 .galleryImage {
-    width: 100%;
-    height: 310px;
-    /* Фіксована висота, як на картках */
+    width: 100% ;
+    height: 312px;
     object-fit: cover;
     border-radius: 10px;
-    /* Заокруглення кутів */
     display: block;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
 }
-
+.galleryImage:hover {
+    transform: scale(1.03);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+}
 .galleryImagePlaceholder {
-    composes: galleryImage;
-    /* Успадковуємо стилі зображення */
+    
     background-color: var(--clr-surface-light, #F2F4F7);
     display: flex;
     justify-content: center;
@@ -123,21 +109,15 @@
     font-size: 16px;
     line-height: 24px;
     color: var(--clr-text-primary, #475467);
-    /* Більш світлий колір для опису */
     margin-bottom: 44px;
-    /* Відступ під описом, перед вкладками */
 }
 
 .tabNavigation {
     display: flex;
     gap: 40px;
-    /* Відстань між вкладками */
     margin-bottom: 44px;
-    /* Відступ під вкладками */
     border-bottom: 1px solid rgba(16, 24, 40, 0.2);
-    /* Лінія під вкладками */
     padding-bottom: 24px;
-    /* Відступ від тексту до лінії */
 }
 
 .tabLink {
@@ -147,20 +127,16 @@
     text-decoration: none;
     position: relative;
     padding-bottom: 24px;
-    /* Для візуального відступу активної лінії */
+
     transition: color 0.2s ease;
 }
 
 .tabLink:hover {
     color: var(--clr-primary-red, #E44848);
-    /* Змінюємо колір при наведенні */
 }
 
 .tabLinkActive {
-    composes: tabLink;
-    /* Успадковуємо базові стилі */
     color: var(--clr-primary-red, #E44848);
-    /* Активний колір */
 }
 
 .tabLinkActive::after {
@@ -170,35 +146,46 @@
     left: 0;
     width: 100%;
     height: 5px;
-    /* Товщина активної лінії */
     background-color: var(--clr-primary-red, #E44848);
     border-radius: 2.5px;
-    /* Заокруглення активної лінії */
 }
 
 .contentAndBookingLayout {
     display: grid;
-    grid-template-columns: 1fr 400px;
-    /* Ліва колонка для контенту, права для форми бронювання */
+    grid-template-columns: 631px 641px;
     gap: 24px;
-    /* Відступ між колонками */
+    align-items: start;
 }
-
 .outletContent {
-    /* Тут буде відображатися FeaturesPage або ReviewsPage */
+    width: 100%;
+    height: fit-content;
+    box-sizing: border-box;
+    background-color: var(--clr-card-bg, #FFFFFF);
+    border-radius: var(--radius-md, 10px);
+    box-shadow: var(--shadow-sm, 0px 8px 24px rgba(0, 0, 0, 0.1));
+    padding: 24px;
+    overflow-y: auto;
 }
 
 .bookingFormSection {
     background-color: var(--clr-card-bg, #fff);
-    /* Фоновий колір для форми */
     border: 1px solid var(--clr-border-light, #DADEE1);
-    /* Межа */
     border-radius: 10px;
-    /* Заокруглення кутів */
-    padding: 24px;
-    /* Внутрішні відступи */
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
-    /* Легка тінь */
+
+    padding: 84px 57px;
+    width: 641px;
+    box-sizing: border-box;
+
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.1);
     height: fit-content;
-    /* Форма займає тільки необхідну висоту */
+
+    display: flex;
+    flex-direction: column;
+}
+.vanPriceLarge {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--clr-text-dark, #101828);
+    white-space: nowrap;
+
 }

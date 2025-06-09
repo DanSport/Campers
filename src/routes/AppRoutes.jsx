@@ -17,8 +17,7 @@ export default function AppRoutes() {
         <Route path="/" element={<RootHub />}>
           <Route index element={<HomePage />} />
           <Route path="catalog" element={<CatalogPage />} />
-          <Route path="catalog/:id" element={<VanDetailsPage />}>
-             {/* за замовчуванням — кидає на /catalog/:id/features */}
+          <Route path="catalog/:id" element={<VanDetailsPage />}>          
              <Route index element={<Navigate to="features" replace />} />
             <Route path="features" element={<FeaturesPage />} />
             <Route path="reviews" element={<ReviewsPage />} />

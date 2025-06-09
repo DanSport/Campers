@@ -1,60 +1,55 @@
-/* components/Header/Header.module.css (або де у вас розташований цей файл) */
+
 .appHeader {
-    /* Використовуйте цей клас в JSX */
-    display: flex;
-    justify-content: space-between;
-    /* Розташовує елементи з простором між ними */
-    align-items: center;
-    padding: 24px 64px;
-    /* Це задає розмір хедера */
+    width: 100%;
     background-color: var(--clr-surface-light, #F7F7F7);
-    /* Я змінив назву змінної для фону на світлішу, щоб уникнути конфлікту з dark-theme clr-surface */
     border-bottom: 1px solid var(--clr-surfaceDim, #E2E2E2);
     position: relative;
-    width: 100%;
-    /* Ця змінна дозволить HomePage.module.css розрахувати висоту hero-секції */
+    padding-top: 24px;
+    padding-bottom: 24px;
     --current-header-height: calc(24px * 2 + 1px);
-    /* Розрахована висота: 2*padding_vertical + border */
 }
 
+.headerContentWrapper {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 64px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
 .brandLogo {
-    /* Клас для логотипу */
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 24px;
     color: var(--clr-text-dark, #101828);
-    /* Використовуйте змінну для темного тексту */
     text-decoration: none;
 }
 
 .brandLogo span {
     font-weight: 400;
     color: var(--clr-muted-light, #475467);
-    /* Використовуйте змінну для світлішого приглушеного тексту */
 }
 
 .mainNav {
-    /* Клас для навігації */
     display: flex;
     gap: 32px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
-    /* Переконайтеся, що навігація знаходиться над іншими елементами */
 }
 
 .navLink {
-    /* Клас для кожного посилання */
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 18px;
     color: var(--clr-text-dark, #101828);
-    /* Колір посилань */
     text-decoration: none;
     position: relative;
     padding-bottom: 5px;
-    /* Додає простір між текстом і підкресленням */
 }
 
 .navLink::after {
@@ -64,7 +59,6 @@
     bottom: 0px;
     height: 2px;
     background: var(--clr-primary-red, #E44848);
-    /* Колір підкреслення */
     transform: scaleX(0);
     transition: transform .25s ease-out;
     transform-origin: left;
@@ -76,15 +70,9 @@
 }
 
 .activeLink {
-    /* Клас для активного посилання */
     color: var(--clr-primary-red, #E44848);
-    /* Колір активного посилання */
 }
 
 .rightSection {
-    /* Цей блок має бути приблизно такої ж ширини, як brandLogo,
-       щоб mainNav був ідеально по центру.
-       Підлаштуйте значення, якщо логотип має іншу ширину. */
     width: 150px;
-    /* Приблизне значення, підлаштуйте за потребою */
 }

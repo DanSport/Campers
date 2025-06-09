@@ -1,41 +1,42 @@
+// src/components/HeaderBar/HeaderBar.jsx
 import { NavLink } from "react-router-dom";
 import styles from "./HeaderBar.module.css";
 
 const HeaderBar = () => {
   return (
     <header className={styles.appHeader}>
-      {" "}
-      {/* Переконайтеся, що клас саме appHeader */}
-      {/* Блок для логотипу */}
-      <NavLink to="/" className={styles.brandLogo}>
+      {}
+      <div className={styles.headerContentWrapper}>
         {" "}
-        {/* Клас brandLogo */}
-        Travel<span>Trucks</span>
-      </NavLink>
-      {/* Блок для навігації */}
-      <nav className={styles.mainNav}>
-        {" "}
-        {/* Клас mainNav */}
-        <NavLink
-          to="/"
-          end
-          className={({ isActive }) =>
-            `${styles.navLink} ${isActive ? styles.activeLink : ""}`
-          }
-        >
-          Home
+        {}
+        {}
+        <NavLink to="/" className={styles.brandLogo}>
+          Travel<span>Trucks</span>
         </NavLink>
-        <NavLink
-          to="/catalog"
-          className={({ isActive }) =>
-            `${styles.navLink} ${isActive ? styles.activeLink : ""}`
-          }
-        >
-          Catalog
-        </NavLink>
-      </nav>
-      {/* Порожній div для правої секції, щоб flexbox працював правильно */}
-      <div className={styles.rightSection}></div>
+        {}
+        <nav className={styles.mainNav}>
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              `${styles.navLink} ${isActive ? styles.activeLink : ""}`
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/catalog"
+            className={({ isActive }) =>
+              `${styles.navLink} ${isActive ? styles.activeLink : ""}`
+            }
+          >
+            Catalog
+          </NavLink>
+        </nav>
+        {}
+        <div className={styles.rightSection}></div>
+      </div>{" "}
+      {}
     </header>
   );
 };
