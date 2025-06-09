@@ -4,8 +4,7 @@
     width: 100%;
     margin: 0;
     aspect-ratio: 16/9;
-    /* Якщо main обгортає hero-секцію і має padding-block: 2rem;,
-       то вам потрібно відняти 2rem (зверху) + 2rem (знизу) = 4rem */
+
     height: calc(100vh - var(--header-height) - 4rem);
     overflow: hidden;
     background: url("/images/hero.jpeg") center/cover no-repeat;
@@ -33,11 +32,20 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    /* Вирівнювання по лівому краю */
     height: 100%;
-    padding: 0 1rem;
+    /* Застосовуємо такий самий padding, як у хедера */
+    padding: 0 64px;
     color: white;
-    text-align: center;
+    text-align: left;
+    /* Вирівнювання тексту по лівому краю */
+    /* Якщо ви хочете, щоб контент Hero-секції не виходив за максимальну ширину хедера,
+       можете додати max-width та margin: 0 auto; до .content */
+    max-width: 1440px;
+    /* Максимальна ширина контейнера */
+    margin: 0 auto;
+    /* Центрування контейнера */
 }
 
 .content h1 {
